@@ -24,6 +24,8 @@ public class PetStore {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long petStoreId;
 	
+	private String petStoreName;
+	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@OneToMany(mappedBy = "petStore", cascade = CascadeType.ALL, orphanRemoval = true)
