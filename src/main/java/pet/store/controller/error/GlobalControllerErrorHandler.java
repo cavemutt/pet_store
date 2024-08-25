@@ -1,6 +1,7 @@
 package pet.store.controller.error;
 
 import java.time.ZonedDateTime;
+
 import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
 
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,13 +30,25 @@ public class GlobalControllerErrorHandler {
 		private String url;
 	}
 	
+	@ExceptionHandler(UnsupportedOperationException.class)
+	@ResponseStatus(code = HttpStatus.METHOD_NOT_ALLOWED)
+	public ExceptionMessage handleUnsupportedOperationException(UnsupportedOperationException ex, WebRequest webRequest) {
+		return buildExceptionMessage(ex, HttpStatus.METHOD_NOT_ALLOWED, webRequest, LogStatus.MESSAGE_ONLY);
+	}
+	
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	public ExceptionMessage handleException(Exception ex, WebRequest webRequest) {
+		return buildExceptionMessage(ex, HttpStatus.INTERNAL_SERVER_ERROR, webRequest, LogStatus.STACK_TRACE);
+	}
+	
 	@ExceptionHandler(NoSuchElementException.class)
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public ExceptionMessage handleNoSuchElementException(NoSuchElementException ex, WebRequest webRequest) {
 		return buildExceptionMessage(ex, HttpStatus.NOT_FOUND, webRequest, LogStatus.MESSAGE_ONLY);
 	}
 
-	private ExceptionMessage buildExceptionMessage(NoSuchElementException ex, HttpStatus status,
+	private ExceptionMessage buildExceptionMessage(Exception ex, HttpStatus status,
 			WebRequest webRequest, LogStatus logStatus) {
 		String message = ex.toString();
 		String statusReason = status.getReasonPhrase();

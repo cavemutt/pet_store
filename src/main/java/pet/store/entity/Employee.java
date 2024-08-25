@@ -19,6 +19,12 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long employeeId;
 	
+	private String firstName;
+	private String lastName;
+	private String title;
+	private String phone;
+	
+	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)
