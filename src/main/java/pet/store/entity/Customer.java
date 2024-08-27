@@ -24,7 +24,7 @@ public class Customer {
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pet_store_id")
 	private PetStore petStore;
 

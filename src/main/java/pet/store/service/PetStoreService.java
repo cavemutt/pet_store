@@ -63,7 +63,6 @@ public class PetStoreService {
 		List<PetStore> petStores = petStoreDao.findAll();
 		List<PetStoreData> response = new LinkedList<>();
 		for (PetStore petStore : petStores) {
-//			response.add(new PetStoreData(petStore));
 			PetStoreData psd = new PetStoreData(petStore);
 			psd.getCustomers().clear();
 			psd.getEmployees().clear();
